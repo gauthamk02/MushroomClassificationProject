@@ -4,7 +4,7 @@ import pandas as pd
 import seaborn as sns 
 import matplotlib.pyplot as plt 
 import os 
-import graphviz
+#import graphviz
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder
 from sklearn.tree import DecisionTreeClassifier, export_graphviz
@@ -17,7 +17,8 @@ df = pd.read_csv("mushrooms.csv")
 #df = df[['class', 'gill-color', 'spore-print-color', 'population', 'gill-size',
 #        'stalk-root', 'habitat']]
 
-features = ['class', 'odor', 'gill-color', 'gill-size', 'spore-print-color', 'population'] 
+features = ['class', 'odor', 'gill-color', 'gill-size', 'spore-print-color', 'gill-spacing']
+
 df = df[features]
 features.remove('class')
 #print(df.head())
@@ -61,14 +62,13 @@ n = 1
 #    if val == pred:
 #        print(key)
 
-['class', 'odor', 'gill-color', 'gill-size', 'spore-print-color', 'population']
+#edible 
+agaricus_bisporus = {'name': 'Agaricus Bisporous','gill-color': 'n', 'spore-print-color': 'n', 'gill-size': 'n', 'gill-spacing': 'w',
+    'odor': 'n'} #'population': 'a', 
 
-#edible
-#'name': 'Agaricus Bisporus', 
-agaricus_bisporus = {'gill-color': 'b', 'spore-print-color': 'n', 'gill-size': 'n',
-    'population': 'a', 'odor': 'n'}
 #poisonous
-amanita_phalloides = {'odor': 'p', 'gill-color': 'w',  'gill-size': 'b'}#, 'spore-print-color': 'w', 'population': 'y'}
+amanita_phalloides = {'name': 'Amanita Phalloides','odor': 'f', 'gill-color': 'p',  'gill-size': 'b', 'spore-print-color': 'w', 'gill-spacing': 'w'}#,'ring-type': 'p'}#, 'population': 'y'}
+
 
 mushrooms = [agaricus_bisporus, amanita_phalloides]
 
@@ -78,34 +78,19 @@ print(labelmap)
 
 #print(X_test.iloc[n:n+1])
 
-"""
+
 for mushroom in mushrooms:
     for key in features:
         mushroom[key] = labelmap[key][mushroom[key]]
 print(mushrooms)
 df2 = pd.DataFrame(mushrooms)
-df2.set_index('name', inplace= True)
 print(df2)
-print(rf.predict(df2[features].loc['Agaricus Bisporus']))
-"""
-for feature in features:
-    agaricus_bisporus[feature] = labelmap[feature][agaricus_bisporus[feature]]
-
-for feature in features:
-    amanita_phalloides[feature] = labelmap[feature][amanita_phalloides[feature]]
-
-'''df2 = X_test.iloc[3:10]
-df2 = df2[X_test.columns]
-print(df2)
-print(rf.predict(df2))
-print(y_test.iloc[3:10])'''
-
-df2 = pd.DataFrame(amanita_phalloides, index = [0])
-df2 = df2[X_test.columns]
 #df2.set_index('name', inplace= True)
-print(df2)
-print(rf.predict(df2))
+print(df2[X_test.columns])
+pred = rf.predict(df2[X_test.columns]) 
+print(pred)
+df2['class'] = pred
+print(df2[['name','class']])
 
-print(df2[features])
-print(rf.predict(df2[features]))
+
 
