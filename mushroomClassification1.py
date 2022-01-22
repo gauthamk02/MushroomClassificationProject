@@ -4,6 +4,7 @@ import pandas as pd
 import seaborn as sns 
 import matplotlib.pyplot as plt 
 import os 
+import pprint
 #import graphviz
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder
@@ -14,14 +15,10 @@ print("Started")
 
 df = pd.read_csv("mushrooms.csv")
 
-#df = df[['class', 'gill-color', 'spore-print-color', 'population', 'gill-size',
-#        'stalk-root', 'habitat']]
-
 features = ['class', 'odor', 'gill-color', 'gill-size', 'spore-print-color', 'gill-spacing']
 
 df = df[features]
 features.remove('class')
-#print(df.head())
 
 df = df.astype('category')
 
@@ -35,7 +32,7 @@ for column in df.columns:
 X = df.drop(["class"], axis=1)
 y = df["class"]
 X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=42, test_size=0.1)
-print(X.head())
+#print(X.head())
 from sklearn.ensemble import RandomForestClassifier
 rf = RandomForestClassifier(n_estimators=100, random_state=42)
 rf.fit(X_train, y_train)
@@ -54,14 +51,6 @@ plt.draw()
 #plt.savefig("featureimp.png", format='png', dpi=500, bbox_inches='tight')
 plt.show()"""
 
-
-n = 1
-#pred = rf.predict(X_test.iloc[n:n+1])[0]
-
-#for key, val in labelmap['class'].items():
-#    if val == pred:
-#        print(key)
-
 #edible 
 agaricus_bisporus = {'name': 'Agaricus Bisporous','gill-color': 'n', 'spore-print-color': 'n', 'gill-size': 'n', 'gill-spacing': 'w',
     'odor': 'n'} #'population': 'a', 
@@ -69,27 +58,21 @@ agaricus_bisporus = {'name': 'Agaricus Bisporous','gill-color': 'n', 'spore-prin
 #poisonous
 amanita_phalloides = {'name': 'Amanita Phalloides','odor': 'f', 'gill-color': 'p',  'gill-size': 'b', 'spore-print-color': 'w', 'gill-spacing': 'w'}#,'ring-type': 'p'}#, 'population': 'y'}
 
-
 mushrooms = [agaricus_bisporus, amanita_phalloides]
 
-#print(y_test.iloc[n:n+1])
-
-print(labelmap)
-
-#print(X_test.iloc[n:n+1])
-
+pprint.pprint(labelmap)
 
 for mushroom in mushrooms:
     for key in features:
         mushroom[key] = labelmap[key][mushroom[key]]
-print(mushrooms)
+
 df2 = pd.DataFrame(mushrooms)
-print(df2)
-#df2.set_index('name', inplace= True)
-print(df2[X_test.columns])
-pred = rf.predict(df2[X_test.columns]) 
+
+pred = rf.predict(df2[X_test.columns])
 print(pred)
+
 df2['class'] = pred
+print(labelmap['class'])
 print(df2[['name','class']])
 
 
