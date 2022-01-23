@@ -1,22 +1,23 @@
-from tkinter import Y
+#from tkinter import Y
 import numpy as np 
-import pandas as pd 
-import seaborn as sns 
-import matplotlib.pyplot as plt 
-import os 
-import pprint
+#import seaborn as sns 
+#import os 
 #import graphviz
+#from sklearn.tree import DecisionTreeClassifier, export_graphviz
+#from sklearn.metrics import classification_report, confusion_matrix, precision_recall_curve, auc, roc_curve
+
+import pandas as pd 
+import matplotlib.pyplot as plt 
+import pprint
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder
-from sklearn.tree import DecisionTreeClassifier, export_graphviz
-from sklearn.metrics import classification_report, confusion_matrix, precision_recall_curve, auc, roc_curve
-
-print("Started")
+from sklearn.ensemble import RandomForestClassifier
 
 df = pd.read_csv("mushrooms.csv")
 
 features = ['class', 'odor', 'gill-color', 'gill-size', 'spore-print-color', 'gill-spacing']
-
+#features = ['class', 'gill-attachment', 'cap-shape']
+print(df['gill-spacing'].unique())
 df = df[features]
 features.remove('class')
 
@@ -50,15 +51,20 @@ plt.title('Feature importance')
 plt.draw()
 #plt.savefig("featureimp.png", format='png', dpi=500, bbox_inches='tight')
 plt.show()"""
-
+['class', 'odor', 'gill-color', 'gill-size', 'spore-print-color', 'gill-spacing']
 #edible 
-agaricus_bisporus = {'name': 'Agaricus Bisporous','gill-color': 'n', 'spore-print-color': 'n', 'gill-size': 'n', 'gill-spacing': 'w',
-    'odor': 'n'} #'population': 'a', 
+agaricus_bisporus = {'Name': 'Agaricus Bisporous','gill-color': 'n', 'spore-print-color': 'n', 'gill-size': 'n', 'gill-spacing': 'w',
+    'odor': 'n', 'ring-type': 'n'} #'population': 'a', 
 
 #poisonous
-amanita_phalloides = {'name': 'Amanita Phalloides','odor': 'f', 'gill-color': 'p',  'gill-size': 'b', 'spore-print-color': 'w', 'gill-spacing': 'w'}#,'ring-type': 'p'}#, 'population': 'y'}
+amanita_phalloides = {'Name': 'Amanita Phalloides','odor': 'f', 'gill-color': 'p',  'gill-size': 'b', 'spore-print-color': 'w','ring-type': 'p', 'gill-spacing': 'w'}#,'ring-type': 'p'}#, 'population': 'y'}
 
-mushrooms = [agaricus_bisporus, amanita_phalloides]
+#poisonous
+lepiota_cristata = {'Name': 'Lepiota Cristata', 'odor': 'f', 'gill-color': 'w', 'gill-size': }
+#poisonous
+#lepiota_magnispora = {'Name': 'Lepiota Magnispora', 'odor': 'n', 'gill-color': 'w', 'gill-size': 'n', 'spore-print-color': 'w', 'gill-spacing': 'd'}
+
+mushrooms = [agaricus_bisporus, amanita_phalloides, lepiota_magnispora]#, amanita_phalloides]
 
 pprint.pprint(labelmap)
 
@@ -73,7 +79,7 @@ print(pred)
 
 df2['class'] = pred
 print(labelmap['class'])
-print(df2[['name','class']])
+print(df2[['Name','class']])
 
 
 
