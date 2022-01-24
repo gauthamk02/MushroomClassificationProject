@@ -1,3 +1,5 @@
+#This file contains the code for training the model based on selected features and classfying some real mushrooms as poisonous or edible
+#Refer MushroomClassification.ipynb for detailed working of the code
 import pandas as pd 
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder
@@ -32,8 +34,10 @@ amanita_phalloides = {'Name': 'Amanita Phalloides','odor': 'f', 'gill-color': 'p
     'ring-type': 'p', 'gill-spacing': 'w'}
 #edible
 volvariella_volvacea = {'Name': 'Volvariella Volvacea', 'gill-color': 'w', 'spore-print-color': 'w', 'gill-size': 'b', 'gill-spacing': 'c', 'odor': 'n'}
+#poisonous
+lepiota_cristata = {'Name': 'Lepiota Cristata', 'gill-color': 'w', 'spore-print-color':'w', 'gill-size':'b', 'gill-spacing': 'w', 'odor': 'f' }
 
-mushrooms = [agaricus_bisporus, amanita_phalloides, volvariella_volvacea]
+mushrooms = [agaricus_bisporus, amanita_phalloides, volvariella_volvacea, lepiota_cristata]
 
 for mushroom in mushrooms:
     for key in new_features:
@@ -45,4 +49,5 @@ class_ = rf.predict(df_test[X_train.columns])
 
 df_test['class'] = class_
 print(f"\nLabel mapping of class: {labelmap['class']}")
+print("e - edible \np - poisonous \n")
 print(df_test[['Name', 'class']])

@@ -1,3 +1,5 @@
+#This file contains the code for training the model based on all features in the dataset, finding its accuracy and feature importance.
+#Refer MushroomClassification.ipynb for detailed working of the code
 import numpy as np 
 import pandas as pd 
 import matplotlib.pyplot as plt 
